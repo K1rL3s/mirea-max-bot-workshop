@@ -27,6 +27,8 @@
 
 ### Полезные материалы
 
-- [Макс - создание бизнес аккаунта](https://dev.max.ru/docs/maxbusiness/connection)
+- [Макс - подключение бизнес-аккаунта](https://dev.max.ru/docs/maxbusiness/connection)
+- [Макс - регистрация бизнес-аккаунта](https://dev.max.ru/help/platform_connection)
+- [Макс - верификация бизнес-аккаунта](https://dev.max.ru/help/organization)
 - [Макс - бизнес платформа](https://dev.max.ru/docs/maxbusiness/selectionservices)
 

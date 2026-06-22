@@ -62,4 +62,4 @@
 ### Полезные материалы
 
 - [Макс - создание бота](https://dev.max.ru/docs/chatbots/bots-create)
-- [Макс - мини-аппы](https://dev.max.ru/docs/webapps/introduction)
+- [Макс - боты](https://dev.max.ru/help/chatbots)
