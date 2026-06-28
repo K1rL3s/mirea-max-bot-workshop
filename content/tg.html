@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="MobileOptimized" content="176"/>
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="robots" content="noindex,nofollow"/>
+    <script src="https://telegram.org/js/telegram-web-app.js?62"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            font-size: 16px;
+            padding: 0;
+            color-scheme: var(--tg-color-scheme);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px 16px 100px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--tg-theme-text-color);
+        }
+
+        .subtitle {
+            color: var(--tg-theme-hint-color, #8e8e8e);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .section {
+            margin-bottom: 24px;
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--tg-theme-hint-color, #8e8e8e);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 500;
+            margin: 8px 0;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            cursor: pointer;
+            transition: opacity 0.2s;
+            text-align: center;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button.secondary {
+            background-color: var(--tg-theme-secondary-bg-color, #e0e0e0);
+            color: var(--tg-theme-text-color, #222222);
+        }
+
+        button.danger {
+            background-color: var(--tg-theme-destructive-text-color, #ff3b30);
+            color: #ffffff;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status {
+            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+            display: none;
+            background: var(--tg-theme-secondary-bg-color);
+        }
+
+        .status.ok {
+            display: block;
+            color: #34c759;
+            background: rgba(52, 199, 89, 0.1);
+        }
+
+        .status.err {
+            display: block;
+            color: #ff3b30;
+            background: rgba(255, 59, 48, 0.1);
+        }
+
+        .status.info {
+            display: block;
+            color: var(--tg-theme-hint-color);
+            background: var(--tg-theme-secondary-bg-color);
+        }
+
+        pre {
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+            overflow-x: auto;
+            font-size: 12px;
+            color: var(--tg-theme-text-color);
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: var(--tg-theme-button-color, #2481cc);
+            color: #fff;
+            margin-left: 8px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--tg-theme-section-separator-color, #e0e0e0);
+            font-size: 13px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--tg-theme-hint-color, #8e8e8e);
+        }
+
+        .info-value {
+            font-weight: 500;
+            text-align: right;
+            max-width: 60%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            border: 1px solid var(--tg-theme-section-separator-color, #e0e0e0);
+            border-radius: 10px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            margin: 6px 0;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color, #2481cc);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .flex-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 4px 0;
+        }
+
+        .flex-buttons button {
+            flex: 1 1 calc(50% - 6px);
+            min-width: calc(50% - 6px);
+            font-size: 13px;
+            padding: 10px 8px;
+            margin: 0;
+        }
+
+        .flex-buttons button.small {
+            flex: 1 1 calc(33.33% - 6px);
+            min-width: calc(33.33% - 6px);
+            font-size: 12px;
+            padding: 8px 4px;
+        }
+
+        .flex-buttons button.full {
+            flex: 1 1 100%;
+            min-width: 100%;
+        }
+
+        .flex-buttons button.danger {
+            flex: 1 1 calc(33.33% - 6px);
+            min-width: calc(33.33% - 6px);
+        }
+
+        .viewport-indicator {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--tg-theme-secondary-bg-color);
+            padding: 8px 16px;
+            font-size: 11px;
+            color: var(--tg-theme-hint-color);
+            text-align: center;
+            border-bottom: 1px solid var(--tg-theme-section-separator-color);
+            width: 100%;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="viewport-indicator">
+        viewportHeight: <span id="viewportHeight">0</span>px |
+        viewportStableHeight: <span id="viewportStableHeight">0</span>px |
+        isExpanded: <span id="isExpanded">false</span>
+    </div>
+
+    <h1>Telegram Mini App</h1>
+    <div class="subtitle">Демо всех возможностей</div>
+
+    <!-- Информация о пользователе -->
+    <div class="section">
+        <div class="section-title">📱 Данные пользователя</div>
+        <div id="userInfo">
+            <div class="info-row">
+                <span class="info-label">ID</span>
+                <span class="info-value" id="userId">—</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Имя</span>
+                <span class="info-value" id="userName">—</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Username</span>
+                <span class="info-value" id="userUsername">—</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Язык</span>
+                <span class="info-value" id="userLanguage">—</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Premium</span>
+                <span class="info-value" id="userPremium">—</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Платформа</span>
+                <span class="info-value" id="userPlatform">—</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Версия API</span>
+                <span class="info-value" id="userVersion">—</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Тема</span>
+                <span class="info-value" id="userTheme">—</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основные кнопки -->
+    <div class="section">
+        <div class="section-title">🎮 Управление</div>
+        <button id="expandBtn">Развернуть на весь экран</button>
+        <button id="closeBtn" class="danger">Закрыть приложение</button>
+    </div>
+
+    <!-- Отправка данных -->
+    <div class="section">
+        <div class="section-title">📤 Отправка данных</div>
+        <p style="font-size:13px;color:var(--tg-theme-hint-color);margin-bottom:8px;">
+            Работает только при открытии через reply-кнопку с web_app
+        </p>
+        <input type="text" id="dataInput" placeholder="Введите данные для отправки" />
+        <button id="sendDataBtn">Отправить данные (sendData)</button>
+        <div id="sendStatus" class="status"></div>
+    </div>
+
+    <!-- Основная кнопка -->
+    <div class="section">
+        <div class="section-title">🔘 Основная кнопка (MainButton)</div>
+        <div class="flex-buttons">
+            <button id="showMainBtn">Показать</button>
+            <button id="hideMainBtn">Скрыть</button>
+        </div>
+        <button id="setMainTextBtn" class="secondary">Установить текст: «Готово»</button>
+        <div id="mainBtnStatus" class="status info">Кнопка скрыта</div>
+    </div>
+
+    <!-- Вторичная кнопка -->
+    <div class="section">
+        <div class="section-title">🔘 Вторичная кнопка (SecondaryButton)</div>
+        <div class="flex-buttons">
+            <button id="showSecondBtn">Показать</button>
+            <button id="hideSecondBtn">Скрыть</button>
+        </div>
+        <div id="secondBtnStatus" class="status info">Кнопка скрыта</div>
+    </div>
+
+    <!-- Кнопка Назад -->
+    <div class="section">
+        <div class="section-title">⬅️ Кнопка Назад (BackButton)</div>
+        <div class="flex-buttons">
+            <button id="showBackBtn">Показать</button>
+            <button id="hideBackBtn">Скрыть</button>
+        </div>
+        <div id="backBtnStatus" class="status info">Кнопка скрыта</div>
+    </div>
+
+    <!-- Подтверждение закрытия -->
+    <div class="section">
+        <div class="section-title">⚠️ Подтверждение закрытия</div>
+        <div class="flex-buttons">
+            <button id="enableConfirmBtn">Включить</button>
+            <button id="disableConfirmBtn">Отключить</button>
+        </div>
+        <div id="confirmStatus" class="status info">Отключено</div>
+    </div>
+
+    <!-- Haptic Feedback - исправлено -->
+    <div class="section">
+        <div class="section-title">📳 Тактильная обратная связь</div>
+        <div class="flex-buttons">
+            <button id="hapticLight" class="small">Лёгкая</button>
+            <button id="hapticMedium" class="small">Средняя</button>
+            <button id="hapticHeavy" class="small">Сильная</button>
+            <button id="hapticSuccess" class="small">Успех</button>
+            <button id="hapticError" class="small">Ошибка</button>
+            <button id="hapticWarning" class="small">Предупреждение</button>
+        </div>
+    </div>
+
+    <!-- Попапы -->
+    <div class="section">
+        <div class="section-title">💬 Попапы</div>
+        <div class="flex-buttons">
+            <button id="showAlertBtn">Alert</button>
+            <button id="showConfirmBtn">Confirm</button>
+            <button id="showPopupBtn">Popup</button>
+        </div>
+    </div>
+
+    <!-- Сканирование QR -->
+    <div class="section">
+        <div class="section-title">📷 Сканирование QR</div>
+        <div class="flex-buttons">
+            <button id="scanQrBtn">Открыть сканер</button>
+            <button id="closeQrBtn" class="secondary">Закрыть</button>
+        </div>
+        <div id="qrResult" class="status info" style="display:none;">Результат: <span id="qrValue"></span></div>
+    </div>
+
+    <!-- Буфер обмена -->
+    <div class="section">
+        <div class="section-title">📋 Буфер обмена</div>
+        <button id="readClipboardBtn">Прочитать из буфера</button>
+        <div id="clipboardResult" class="status info" style="display:none;">Текст: <span id="clipboardValue"></span></div>
+    </div>
+
+    <!-- Cloud Storage -->
+    <div class="section">
+        <div class="section-title">☁️ Cloud Storage</div>
+        <input type="text" id="cloudKey" placeholder="Ключ" value="testKey" />
+        <input type="text" id="cloudValue" placeholder="Значение" value="testValue" />
+        <div class="flex-buttons">
+            <button id="cloudSetBtn">Сохранить</button>
+            <button id="cloudGetBtn">Получить</button>
+            <button id="cloudRemoveBtn">Удалить</button>
+        </div>
+        <div id="cloudResult" class="status info" style="display:none;"></div>
+    </div>
+
+    <!-- Ссылки -->
+    <div class="section">
+        <div class="section-title">🔗 Открытие ссылок</div>
+        <button id="openLinkBtn">Открыть ссылку (openLink)</button>
+        <button id="openTelegramLinkBtn">Открыть Telegram ссылку</button>
+    </div>
+
+    <!-- Инлайн режим -->
+    <div class="section">
+        <div class="section-title">🔄 Инлайн режим</div>
+        <button id="switchInlineBtn">Переключиться в инлайн</button>
+        <input type="text" id="inlineQuery" placeholder="Запрос" value="тест" />
+    </div>
+
+    <!-- Swipe управление -->
+    <div class="section">
+        <div class="section-title">👆 Управление свайпами</div>
+        <div class="flex-buttons">
+            <button id="enableSwipesBtn">Включить</button>
+            <button id="disableSwipesBtn">Отключить</button>
+        </div>
+        <div id="swipeStatus" class="status info">Включено</div>
+    </div>
+
+    <!-- Инициализационные данные -->
+    <div class="section">
+        <div class="section-title">📄 initData</div>
+        <pre id="initDataDisplay">Нет данных</pre>
+    </div>
+
+    <div class="section">
+        <div class="section-title">📄 initDataUnsafe</div>
+        <pre id="initDataUnsafeDisplay">Нет данных</pre>
+    </div>
+
+    <div class="section">
+        <div class="section-title">🎨 Параметры темы</div>
+        <pre id="themeDataDisplay">Нет данных</pre>
+    </div>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    // --- Вспомогательные функции ---
+    function showStatus(element, message, type = 'info') {
+        element.textContent = message;
+        element.className = `status ${type}`;
+        element.style.display = 'block';
+    }
+
+    function hideStatus(element) {
+        element.style.display = 'none';
+    }
+
+    function logToConsole(data) {
+        console.log('[Telegram Mini App]', data);
+    }
+
+    // --- Обновление данных пользователя ---
+    function updateUserInfo() {
+        const user = tg.initDataUnsafe?.user || {};
+        const chat = tg.initDataUnsafe?.chat || {};
+
+        document.getElementById('userId').textContent = user.id || '—';
+        document.getElementById('userName').textContent = user.first_name || '—';
+        document.getElementById('userUsername').textContent = user.username || '—';
+        document.getElementById('userLanguage').textContent = user.language_code || '—';
+        document.getElementById('userPremium').textContent = user.is_premium ? '✅ Да' : '❌ Нет';
+        document.getElementById('userPlatform').textContent = tg.platform || '—';
+        document.getElementById('userVersion').textContent = tg.version || '—';
+        document.getElementById('userTheme').textContent = tg.colorScheme || '—';
+
+        document.getElementById('initDataDisplay').textContent = tg.initData || 'Нет данных';
+        document.getElementById('initDataUnsafeDisplay').textContent = JSON.stringify(tg.initDataUnsafe, null, 2);
+        document.getElementById('themeDataDisplay').textContent = JSON.stringify(tg.themeParams, null, 2);
+    }
+
+    // --- Обновление статуса кнопок ---
+    function updateButtonStatus() {
+        const mainBtn = tg.MainButton;
+        document.getElementById('mainBtnStatus').textContent = mainBtn.isVisible ? 'Показана' : 'Скрыта';
+        document.getElementById('mainBtnStatus').className = `status ${mainBtn.isVisible ? 'ok' : 'info'}`;
+        document.getElementById('mainBtnStatus').style.display = 'block';
+
+        const secondBtn = tg.SecondaryButton;
+        if (secondBtn) {
+            document.getElementById('secondBtnStatus').textContent = secondBtn.isVisible ? 'Показана' : 'Скрыта';
+            document.getElementById('secondBtnStatus').className = `status ${secondBtn.isVisible ? 'ok' : 'info'}`;
+            document.getElementById('secondBtnStatus').style.display = 'block';
+        }
+
+        const backBtn = tg.BackButton;
+        document.getElementById('backBtnStatus').textContent = backBtn.isVisible ? 'Показана' : 'Скрыта';
+        document.getElementById('backBtnStatus').className = `status ${backBtn.isVisible ? 'ok' : 'info'}`;
+        document.getElementById('backBtnStatus').style.display = 'block';
+
+        document.getElementById('confirmStatus').textContent = tg.isClosingConfirmationEnabled ? 'Включено' : 'Отключено';
+        document.getElementById('confirmStatus').className = `status ${tg.isClosingConfirmationEnabled ? 'ok' : 'info'}`;
+        document.getElementById('confirmStatus').style.display = 'block';
+
+        document.getElementById('swipeStatus').textContent = tg.isVerticalSwipesEnabled ? 'Включено' : 'Отключено';
+        document.getElementById('swipeStatus').className = `status ${tg.isVerticalSwipesEnabled ? 'ok' : 'info'}`;
+        document.getElementById('swipeStatus').style.display = 'block';
+    }
+
+    // --- Обновление viewport ---
+    function updateViewport() {
+        document.getElementById('viewportHeight').textContent = Math.round(tg.viewportHeight);
+        document.getElementById('viewportStableHeight').textContent = Math.round(tg.viewportStableHeight);
+        document.getElementById('isExpanded').textContent = tg.isExpanded ? 'true' : 'false';
+    }
+
+    // --- Инициализация ---
+    updateUserInfo();
+    updateButtonStatus();
+    updateViewport();
+
+    // --- Подписка на события ---
+    tg.onEvent('themeChanged', updateUserInfo);
+    tg.onEvent('viewportChanged', updateViewport);
+
+    tg.MainButton.onClick(() => {
+        logToConsole('MainButton нажата');
+        alert('MainButton нажата!');
+    });
+
+    tg.BackButton.onClick(() => {
+        logToConsole('BackButton нажата');
+        alert('Нажата кнопка Назад!');
+    });
+
+    if (tg.SecondaryButton) {
+        tg.SecondaryButton.onClick(() => {
+            logToConsole('SecondaryButton нажата');
+            alert('SecondaryButton нажата!');
+        });
+    }
+
+    // --- Обработчики кнопок ---
+
+    document.getElementById('expandBtn').addEventListener('click', () => {
+        tg.expand();
+        logToConsole('Приложение развернуто');
+    });
+
+    document.getElementById('closeBtn').addEventListener('click', () => {
+        tg.close();
+        logToConsole('Приложение закрыто');
+    });
+
+    document.getElementById('sendDataBtn').addEventListener('click', () => {
+        const input = document.getElementById('dataInput');
+        const data = input.value.trim();
+        const statusEl = document.getElementById('sendStatus');
+
+        if (!data) {
+            showStatus(statusEl, 'Введите данные для отправки', 'err');
+            return;
+        }
+
+        try {
+            tg.sendData(data);
+            showStatus(statusEl, `Данные отправлены: "${data}"`, 'ok');
+            logToConsole('Данные отправлены:', data);
+        } catch (e) {
+            showStatus(statusEl, `Ошибка: ${e.message}`, 'err');
+            logToConsole('Ошибка отправки:', e);
+        }
+    });
+
+    document.getElementById('showMainBtn').addEventListener('click', () => {
+        tg.MainButton.show();
+        updateButtonStatus();
+        logToConsole('MainButton показана');
+    });
+
+    document.getElementById('hideMainBtn').addEventListener('click', () => {
+        tg.MainButton.hide();
+        updateButtonStatus();
+        logToConsole('MainButton скрыта');
+    });
+
+    document.getElementById('setMainTextBtn').addEventListener('click', () => {
+        tg.MainButton.setText('Готово');
+        showStatus(document.getElementById('mainBtnStatus'), 'Текст изменён на "Готово"', 'ok');
+        logToConsole('Текст MainButton изменён');
+    });
+
+    if (tg.SecondaryButton) {
+        document.getElementById('showSecondBtn').addEventListener('click', () => {
+            tg.SecondaryButton.show();
+            updateButtonStatus();
+            logToConsole('SecondaryButton показана');
+        });
+
+        document.getElementById('hideSecondBtn').addEventListener('click', () => {
+            tg.SecondaryButton.hide();
+            updateButtonStatus();
+            logToConsole('SecondaryButton скрыта');
+        });
+    } else {
+        document.getElementById('showSecondBtn').disabled = true;
+        document.getElementById('hideSecondBtn').disabled = true;
+    }
+
+    document.getElementById('showBackBtn').addEventListener('click', () => {
+        tg.BackButton.show();
+        updateButtonStatus();
+        logToConsole('BackButton показана');
+    });
+
+    document.getElementById('hideBackBtn').addEventListener('click', () => {
+        tg.BackButton.hide();
+        updateButtonStatus();
+        logToConsole('BackButton скрыта');
+    });
+
+    document.getElementById('enableConfirmBtn').addEventListener('click', () => {
+        tg.enableClosingConfirmation();
+        updateButtonStatus();
+        logToConsole('Подтверждение закрытия включено');
+    });
+
+    document.getElementById('disableConfirmBtn').addEventListener('click', () => {
+        tg.disableClosingConfirmation();
+        updateButtonStatus();
+        logToConsole('Подтверждение закрытия отключено');
+    });
+
+    // Haptic Feedback
+    document.getElementById('hapticLight').addEventListener('click', () => {
+        tg.HapticFeedback.impactOccurred('light');
+        logToConsole('Haptic: light');
+    });
+
+    document.getElementById('hapticMedium').addEventListener('click', () => {
+        tg.HapticFeedback.impactOccurred('medium');
+        logToConsole('Haptic: medium');
+    });
+
+    document.getElementById('hapticHeavy').addEventListener('click', () => {
+        tg.HapticFeedback.impactOccurred('heavy');
+        logToConsole('Haptic: heavy');
+    });
+
+    document.getElementById('hapticSuccess').addEventListener('click', () => {
+        tg.HapticFeedback.notificationOccurred('success');
+        logToConsole('Haptic: success');
+    });
+
+    document.getElementById('hapticError').addEventListener('click', () => {
+        tg.HapticFeedback.notificationOccurred('error');
+        logToConsole('Haptic: error');
+    });
+
+    document.getElementById('hapticWarning').addEventListener('click', () => {
+        tg.HapticFeedback.notificationOccurred('warning');
+        logToConsole('Haptic: warning');
+    });
+
+    // Popups
+    document.getElementById('showAlertBtn').addEventListener('click', () => {
+        tg.showAlert('Это Alert сообщение!', () => {
+            logToConsole('Alert закрыт');
+        });
+    });
+
+    document.getElementById('showConfirmBtn').addEventListener('click', () => {
+        tg.showConfirm('Вы уверены?', (confirmed) => {
+            logToConsole('Confirm результат:', confirmed);
+            alert(confirmed ? 'Подтверждено' : 'Отменено');
+        });
+    });
+
+    document.getElementById('showPopupBtn').addEventListener('click', () => {
+        tg.showPopup({
+            title: 'Заголовок',
+            message: 'Это Popup с несколькими кнопками',
+            buttons: [
+                { id: 'yes', type: 'default', text: 'Да' },
+                { id: 'no', type: 'destructive', text: 'Нет' },
+                { id: 'cancel', type: 'cancel', text: 'Отмена' }
+            ]
+        }, (buttonId) => {
+            logToConsole('Popup результат:', buttonId);
+            alert(`Выбрано: ${buttonId}`);
+        });
+    });
+
+    // QR Scanner
+    let qrScannerOpen = false;
+
+    document.getElementById('scanQrBtn').addEventListener('click', () => {
+        if (qrScannerOpen) {
+            alert('Сканер уже открыт');
+            return;
+        }
+
+        tg.showScanQrPopup({
+            text: 'Наведите камеру на QR-код'
+        }, (result) => {
+            qrScannerOpen = false;
+            if (result) {
+                document.getElementById('qrValue').textContent = result;
+                document.getElementById('qrResult').style.display = 'block';
+                logToConsole('QR результат:', result);
+            } else {
+                logToConsole('QR сканирование отменено');
+            }
+        });
+        qrScannerOpen = true;
+        logToConsole('QR сканер открыт');
+    });
+
+    document.getElementById('closeQrBtn').addEventListener('click', () => {
+        if (qrScannerOpen) {
+            tg.closeScanQrPopup();
+            qrScannerOpen = false;
+            logToConsole('QR сканер закрыт');
+        }
+    });
+
+    // Clipboard
+    document.getElementById('readClipboardBtn').addEventListener('click', () => {
+        tg.readTextFromClipboard((text) => {
+            if (text) {
+                document.getElementById('clipboardValue').textContent = text;
+                document.getElementById('clipboardResult').style.display = 'block';
+                logToConsole('Текст из буфера:', text);
+            } else {
+                alert('Не удалось прочитать буфер обмена');
+            }
+        });
+    });
+
+    // Cloud Storage
+    document.getElementById('cloudSetBtn').addEventListener('click', () => {
+        const key = document.getElementById('cloudKey').value.trim();
+        const value = document.getElementById('cloudValue').value.trim();
+
+        if (!key) {
+            alert('Введите ключ');
+            return;
+        }
+
+        tg.CloudStorage.setItem(key, value, (success, error) => {
+            const resultEl = document.getElementById('cloudResult');
+            if (success) {
+                showStatus(resultEl, `Сохранено: ${key} = ${value}`, 'ok');
+                logToConsole('CloudStorage сохранено:', key, value);
+            } else {
+                showStatus(resultEl, `Ошибка: ${error}`, 'err');
+                logToConsole('CloudStorage ошибка:', error);
+            }
+        });
+    });
+
+    document.getElementById('cloudGetBtn').addEventListener('click', () => {
+        const key = document.getElementById('cloudKey').value.trim();
+
+        if (!key) {
+            alert('Введите ключ');
+            return;
+        }
+
+        tg.CloudStorage.getItem(key, (value, error) => {
+            const resultEl = document.getElementById('cloudResult');
+            if (value !== undefined && value !== null) {
+                showStatus(resultEl, `Значение: ${value}`, 'ok');
+                logToConsole('CloudStorage получено:', key, value);
+            } else {
+                showStatus(resultEl, `Ошибка: ${error || 'Ключ не найден'}`, 'err');
+                logToConsole('CloudStorage ошибка:', error);
+            }
+        });
+    });
+
+    document.getElementById('cloudRemoveBtn').addEventListener('click', () => {
+        const key = document.getElementById('cloudKey').value.trim();
+
+        if (!key) {
+            alert('Введите ключ');
+            return;
+        }
+
+        tg.CloudStorage.removeItem(key, (success, error) => {
+            const resultEl = document.getElementById('cloudResult');
+            if (success) {
+                showStatus(resultEl, `Удалено: ${key}`, 'ok');
+                logToConsole('CloudStorage удалено:', key);
+            } else {
+                showStatus(resultEl, `Ошибка: ${error}`, 'err');
+                logToConsole('CloudStorage ошибка:', error);
+            }
+        });
+    });
+
+    // Links
+    document.getElementById('openLinkBtn').addEventListener('click', () => {
+        tg.openLink('https://telegram.org');
+        logToConsole('Открыта ссылка');
+    });
+
+    document.getElementById('openTelegramLinkBtn').addEventListener('click', () => {
+        tg.openTelegramLink('https://t.me/telegram');
+        logToConsole('Открыта Telegram ссылка');
+    });
+
+    // Switch Inline
+    document.getElementById('switchInlineBtn').addEventListener('click', () => {
+        const query = document.getElementById('inlineQuery').value.trim();
+        tg.switchInlineQuery(query, ['users', 'chats']);
+        logToConsole('Переключение в инлайн:', query);
+    });
+
+    // Swipes
+    document.getElementById('enableSwipesBtn').addEventListener('click', () => {
+        tg.enableVerticalSwipes();
+        updateButtonStatus();
+        logToConsole('Вертикальные свайпы включены');
+    });
+
+    document.getElementById('disableSwipesBtn').addEventListener('click', () => {
+        tg.disableVerticalSwipes();
+        updateButtonStatus();
+        logToConsole('Вертикальные свайпы отключены');
+    });
+
+    console.log('Telegram Mini App демо загружено');
+</script>
+</body>
+</html>
