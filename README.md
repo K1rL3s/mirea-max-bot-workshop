@@ -76,12 +76,13 @@
 ## Полезные материалы
 
 - [Бесплатная книга по тг-ботам от Груши](https://mastergroosha.github.io/aiogram-3-guide)
-- [Aiogram GitHub](https://github.com/aiogram/aiogram)
-  - [Aiogram docs](https://docs.aiogram.dev/en/v3.29.0)
-- [TG Bot API](https://core.telegram.org/bots/api)
+- [ТГ - Bot API](https://core.telegram.org/bots/api)
 - [Макс - документация](https://dev.max.ru/docs)
   - [Макс - Bot API](https://dev.max.ru/docs-api)
   - [Макс - бизнес](https://business.max.ru)
-- [Maxo github](https://github.com/K1rL3s/maxo)
+  - [Макс - брендбук](https://go.max.ru/brandbook)
+- [Aiogram](https://github.com/aiogram/aiogram)
+- [Aiogram Dialog](https://github.com/Tishka17/aiogram_dialog)
+- [Maxo](https://github.com/K1rL3s/maxo)
   - [Maxo docs](https://maxo.rtfd.io)
-- [Maxapi github](https://github.com/love-apples/maxapi)
+- [Maxapi](https://github.com/love-apples/maxapi)
