@@ -1,0 +1,79 @@
+[build-system]
+requires = ["uv_build==0.11.25"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""
+
+[project]
+name = "workshop"
+version = "0.0.0"
+description = "Бот для мастер-класса"
+authors = [
+    { name = "lesovoi.k", email = "lesovoi.k@velobike.ru" },
+]
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+
+dependencies = [
+    "maxo[magic_filter,redis]==0.7.0",
+    "aiogram==3.29.0",
+    "aiogram_dialog==2.6.0",
+]
+
+[dependency-groups]
+fast = [
+    "uvloop==0.22.1",
+]
+dev = [
+    "ruff==0.15.20",
+    "black==26.5.1",
+    "codespell==2.4.2",
+    "mypy==2.1.0",
+]
+
+[tool.mypy]
+files = ["workshop"]
+strict = true
+strict_bytes = true
+local_partial_types = true
+ignore_missing_imports = true
+warn_unreachable = true
+enable_error_code = [
+    "truthy-bool",
+    "truthy-iterable",
+    "redundant-expr",
+    "unused-awaitable",
+    "ignore-without-code",
+    "possibly-undefined",
+    "redundant-self",
+    "mutable-override",
+    "unimported-reveal",
+    "deprecated",
+]
+
+[tool.ruff]
+src = ["workshop"]
+fix = true
+line-length = 88
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint]
+select = ["ALL"]
+
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+combine-as-imports = true
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+include = 'workshop/.*\.py$'
