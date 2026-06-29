@@ -8,6 +8,7 @@ from maxo.transport.long_polling import LongPolling
 from maxo.types import BotCommand
 
 from workshop.max.callback import callback_router
+from workshop.max.attachments import attachments_router
 from workshop.max.start import start_router
 from workshop.max.message import message_router
 from workshop.runner import run
@@ -38,6 +39,7 @@ async def main() -> None:
         start_router,
         callback_router,
         message_router,
+        attachments_router,
     )
     # dp.after_startup.register(set_bot_commands)
 
