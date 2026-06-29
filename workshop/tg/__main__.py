@@ -14,12 +14,11 @@ logger = logging.getLogger(__name__)
 
 
 async def set_bot_commands(bot: Bot) -> None:
-    await bot.set_my_name(name="Aiogram Бот")
+    await bot.set_my_name(name="Maxo Бот")
     await bot.set_my_description(
         description=(
             "Демонстрационный бот Python фреймворка aiogram\n"
-            "https://github.com/aiogram/aiogram\n"
-            "https://docs.aiogram.dev"
+            "https://github.com/aiogram/aiogram"
         ),
     )
     result = await bot.set_my_commands(

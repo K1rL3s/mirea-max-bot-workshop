@@ -7,11 +7,10 @@ callback_router = Router(name=__name__)
 
 @callback_router.callback_query(F.data == "calendar")
 async def callback_calendar(callback: CallbackQuery) -> None:
-    await callback.answer("Я календарь, я календарь...")\
-
+    await callback.answer("Я календарь, я календарь...")
     calendar_keyboard = InlineKeyboardBuilder()
     calendar_keyboard.row(
-        InlineKeyboardButton(text="🗓️ Январь 1970", callback_data="empty")
+        InlineKeyboardButton(text="🗓️ Январь 1970", callback_data="empty"),
     )
     calendar_keyboard.row(
         InlineKeyboardButton(text="Пн", callback_data="empty"),

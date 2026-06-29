@@ -37,7 +37,7 @@ async def bot_start(message: Message) -> None:
     reply_keyboard = ReplyKeyboardBuilder()
     reply_keyboard.button(text="✏️ Форматирование")
     reply_keyboard.button(text="📞 Поделиться собой", request_contact=True)
-    reply_keyboard.button(text="📍 Выбрать локацию")
+    reply_keyboard.button(text="📍 Выбрать локацию", request_location=True)
     reply_keyboard.button(text="📍 Моя локация", request_location=True)
     if web_app is not None:
         reply_keyboard.button(text="🌐 Мини-апп", web_app=WebAppInfo(url=web_app))

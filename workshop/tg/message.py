@@ -30,10 +30,12 @@ async def formatting_handler(message: Message) -> None:
         "\n",
         Strikethrough("Это зачеркнутый текст."),
         "\n",
-        TextLink("Это ссылка на библиотеку maxo.", url="https://github.com/K1rL3s/maxo"),
+        TextLink(
+            "Это ссылка на библиотеку maxo.",
+            url="https://github.com/K1rL3s/maxo",
+        ),
         "\n",
-        "Это упоминание пользователя: ",
-        TextMention(user=user),
+        TextMention("Это упоминание пользователя", user=user),
         "\n",
         BlockQuote("Это цитата"),
     )
@@ -44,7 +46,9 @@ async def formatting_handler(message: Message) -> None:
 
 @message_router.message(F.text == "📍 Выбрать локацию")
 async def choose_location_handler(message: Message) -> None:
-    await message.answer("Это обычная кнопка. Нажми «📍 Моя локация» для отправки координат.")
+    await message.answer(
+        "Это обычная кнопка. Нажми «📍 Моя локация» для отправки координат.",
+    )
 
 
 @message_router.message(F.text)

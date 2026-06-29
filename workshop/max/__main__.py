@@ -7,10 +7,10 @@ from maxo.fsm.storages.memory import MemoryStorage
 from maxo.transport.long_polling import LongPolling
 from maxo.types import BotCommand
 
-from workshop.max.callback import callback_router
 from workshop.max.attachments import attachments_router
-from workshop.max.start import start_router
+from workshop.max.callback import callback_router
 from workshop.max.message import message_router
+from workshop.max.start import start_router
 from workshop.runner import run
 
 logger = logging.getLogger(__name__)
